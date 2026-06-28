@@ -1,13 +1,51 @@
 import streamlit as st
+from datetime import datetime
 
 # 1. Page Configuration
 st.set_page_config(page_title="♱ ANARCHY Guild Portal", page_icon="⚔️", layout="centered")
 
 # 2. Permanent Guild Credentials
-GUILD_PASSWORD = "anarchy2026"  # The one password for the entire clan
-ADMIN_EMAILS = ["dark@gmail.com", "kurotsuki@gmail.com", "savage@gmail.com", "emma@anarchy.com", "yeng@anarchy.com"]
+GUILD_PASSWORD = "anarchy2026"
+MASTER_ADMIN_PASSWORD = "anarchyadmin"
 
-# Initialize login states
+# 3. Persistent Database Initialization (Using Streamlit's fragment-safe dictionary)
+if "db_initialized" not in st.experimental_get_query_params():
+    if "guild_orders" not in st.session_state:
+        st.session_state["guild_orders"] = """**1.)** Avoid low level of insults and lust messages while talking on the GC, don't insult your admins they have that power for a reason.
+        
+**2.)** A failure of getting up to 1k guild points during the end of the week will lead to instant kick!!🥀.
+
+**3.)** Any new players will have only 10 days to change their previous names to the name tag that must be given to you by the admin (**Mr.Kυяσтѕυкι**).
+
+**4.)** Since guild war time has been changed completely 🥀, (**7 pm - 11 pm on Fridays & Saturdays**), you should get at least 100 guild points.
+
+**5.)** New requirements for guild: Level 60 upward, Prime 3 upward, 40% active in GC and FF.
+
+**6.)** There will be guild training every day if possible from 10pm to 11pm.
+
+**7.)** **Zero Tolerance Policy:** If an Admin tags you for a Guild War task and you ignore it, you will be kicked immediately.
+
+**8.)** **Performance Cut:** Members who stay in the bottom 3 of the leaderboard for two weeks straight will be removed.
+
+**9.)** **Chain of Command:** Any public disrespect or arguing with Admins in the GC is an instant ban 🗿.
+
+**10.)** Fear the elders of anarchy 🗿"""
+
+    if "user_presence" not in st.session_state:
+        # Default baseline tracking matrix for full squad
+        st.session_state["user_presence"] = {
+            "♱  DARK": {"status": "Offline", "last_seen": "Never"},
+            "♱ KUROTŚUI": {"status": "Offline", "last_seen": "Never"},
+            "♱  SAVAGE.": {"status": "Offline", "last_seen": "Never"},
+            "♱  EMMA": {"status": "Offline", "last_seen": "Never"},
+            "♱  YENG": {"status": "Offline", "last_seen": "Never"},
+            "♱  KAISER": {"status": "Offline", "last_seen": "Never"},
+            "♱  PRIDE": {"status": "Offline", "last_seen": "Never"},
+            "♱ﾠDAMZY🪶": {"status": "Offline", "last_seen": "Never"},
+            "♱ﾠHEMJAY": {"status": "Offline", "last_seen": "Never"},
+        }
+
+# Initialize dynamic operational variables
 if "logged_in" not in st.session_state:
     st.session_state["logged_in"] = False
 if "is_admin" not in st.session_state:
@@ -15,14 +53,13 @@ if "is_admin" not in st.session_state:
 if "username" not in st.session_state:
     st.session_state["username"] = ""
 
-# 3. Clean Theme Custom Styling
+# 4. Clean Dark-Gaming Theme UI Architecture
 st.markdown("""
     <style>
     .main { background-color: #0b0c10; color: #c5c6c7; }
     .stButton>button { background-color: #ff4500; color: white; border-radius: 5px; width: 100%; font-weight: bold; }
     .stButton>button:hover { background-color: #cc3700; color: white; }
     
-    /* WhatsApp Button Styling */
     .whatsapp-btn {
         display: block;
         background-color: #25D366;
@@ -36,6 +73,10 @@ st.markdown("""
         width: 80%;
     }
     .whatsapp-btn:hover { background-color: #128C7E; }
+    
+    .status-online { color: #00ff00; font-weight: bold; font-family: monospace; }
+    .status-offline { color: #ff3333; font-weight: bold; font-family: monospace; }
+    .timestamp { color: #888888; font-size: 12px; font-family: monospace; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -44,37 +85,52 @@ if not st.session_state["logged_in"]:
     st.title("🛡️ ♱ ANARCHY 🛡️")
     st.caption("GUILD ID: 3077980409 • LEVEL 6")
     
-    st.write("### ⚔️ Clan Verification")
-    st.write("Enter your Game Name and the Guild Password to sync with the dashboard.")
+    st.write("### ⚔️ Portal Verification")
+    st.write("Enter your Game Name and password to sync with the network core.")
     
-    user_name = st.text_input("Your Free Fire Name", placeholder="e.g., ♱  DARK")
-    access_password = st.text_input("Guild Password", type="password", placeholder="Enter official clan password")
+    user_name = st.text_input("Free Fire Name", placeholder="e.g., ♱ KAISER")
+    access_password = st.text_input("Password", type="password", placeholder="Enter clan or admin passcode")
     
-    # Simple check to see if an admin wants to use their master email instead
-    admin_email_input = st.text_input("Admin Email (Optional - Leave blank if regular member)", placeholder="admin@gmail.com")
-
-    if st.button("Access Dashboard"):
-        if access_password == GUILD_PASSWORD and user_name.strip() != "":
+    if st.button("Sync Dashboard"):
+        cleaned_name = user_name.strip()
+        current_time_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        if cleaned_name == "":
+            st.error("Identification required. Input your Free Fire name layout.")
+        
+        elif access_password == MASTER_ADMIN_PASSWORD:
             st.session_state["logged_in"] = True
-            st.session_state["username"] = user_name.strip()
+            st.session_state["is_admin"] = True
+            st.session_state["username"] = cleaned_name
             
-            # Check if this user logged in with a verified admin email
-            if admin_email_input.lower() in ADMIN_EMAILS:
-                st.session_state["is_admin"] = True
+            # Log admin online in persistent dict
+            st.session_state["user_presence"][cleaned_name] = {"status": "Online", "last_seen": current_time_str}
+            st.success("Master Administrative Access Granted!")
+            st.rerun()
             
+        elif access_password == GUILD_PASSWORD:
+            st.session_state["logged_in"] = True
+            st.session_state["is_admin"] = False
+            st.session_state["username"] = cleaned_name
+            
+            # Log member online in persistent dict
+            st.session_state["user_presence"][cleaned_name] = {"status": "Online", "last_seen": current_time_str}
             st.success("Access Granted!")
             st.rerun()
-        elif user_name.strip() == "":
-            st.error("Please enter your Free Fire name so the clan knows who you are.")
+            
         else:
-            st.error("Incorrect Guild Password. Ask your leadership group for the correct passcode.")
+            st.error("Access Denied. Passcode mismatch.")
 
-# --- LEADERSHIP DASHBOARD ---
+# --- MAIN DASHBOARD INTERFACE ---
 else:
     st.title("⚔️ ♱ﾠᴀɴᴀʀᴄʜʏ ⚔️")
-    st.subheader(f"Welcome back, {st.session_state['username']} ⚔️")
+    st.subheader(f"Logged in as: {st.session_state['username']}")
     
     if st.button("Disconnect Session"):
+        # Switch status to offline safely upon logout
+        current_time_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        st.session_state["user_presence"][st.session_state["username"]] = {"status": "Offline", "last_seen": current_time_str}
+        
         st.session_state["logged_in"] = False
         st.session_state["is_admin"] = False
         st.session_state["username"] = ""
@@ -84,40 +140,17 @@ else:
     
     portal_tabs = st.tabs(["📜 GUILD ORDERS", "👥 MEMBERS ROSTER", "💬 COMMUNITY HUBS"])
     
-    # Guild Rules
+    # Guild Orders Tab (Loads dynamically from system state database)
     with portal_tabs[0]:
         st.write("### Sup gamers 🤯.")
         st.error("New guild war season¿?!! New rules!! Here are the new rules !!!!😑.")
         
-        st.markdown("""
-        **1.)** Avoid low level of insults and lust messages while talking on the GC, don't insult your admins they have that power for a reason.
-        
-        **2.)** A failure of getting up to 1k guild points during the end of the week will lead to instant kick!!🥀. *(Note: if u have a sensible reason we can let it slide)* And also don't play any other mode when guild war is on.
-        
-        **3.)** Any new players will have only 10 days to change their previous names to the name tag that must be given to you by the admin (**Mr.Kυяσтѕυкι**). Failure to do so will be instantly kicked. If you change your name without the custom font you'll be given a grace period of 10 days to change your name to the custom font. Members who haven't changed their name will be kicked.
-        
-        **4.)** Since guild war time has been changed completely 🥀, (**7 pm - 11 pm on Fridays & Saturdays**), you should get at least 100 guild points.
-        
-        **5.)** New requirements for guild has being changed:
-        * **I.** Level 60 upward
-        * **II.** Prime 3 upward
-        * **III.** Must be 40% active in GC and FF.
-        
-        **6.)** There will be guild training every day if possible from 10pm to 11pm. Failure to participate in one of them will result in a temporary kick as a warning.
-        
-        **7.)** **Zero Tolerance Policy:** If an Admin tags you for a Guild War task and you ignore it while being active in-game, you will be kicked immediately. No excuses 🥀.
-        
-        **8.)** **Performance Cut:** Members who stay in the bottom 3 of the leaderboard for two weeks straight will be removed to make room for stronger players. We only keep the best.
-        
-        **9.)** **Chain of Command:** Any public disrespect or arguing with Admins in the GC is considered mutiny. Take your complaints to DMs or face an instant ban 🗿.
-        
-        **10.)** Fear the elders of anarchy 🗿
-        """)
+        st.markdown(st.session_state["guild_orders"])
         
         st.divider()
         st.warning("⚠️ NOTE: This is not for the weak, if u can't cooperate pls kindly leave 🥀🥀.")
 
-    # Members List
+    # Members Presence Tracking Roster
     with portal_tabs[1]:
         st.write("### 📢 OFFICIAL MEMBERS ROSTER")
         
@@ -150,18 +183,36 @@ else:
         for idx, b_member in enumerate(extra_members, start=10):
             st.markdown(f"**{idx}.** `{b_member}`")
 
-    # Community Links
+    # Community Redirect Links
     with portal_tabs[2]:
         st.write("### 🔗 ANARCHY OFFICIAL HUBS")
-        st.write("Quickly hop off the web dashboard directly into our active chat channels below:")
-        
         whatsapp_invite_url = "https://chat.whatsapp.com/LFHtTSLYkNc5IT2iRFWbYy?s=sh&p=a&mlu=2"
         st.markdown(f'<a href="{whatsapp_invite_url}" target="_blank" class="whatsapp-btn">🟢 JOIN OFFICIAL WHATSAPP GC</a>', unsafe_allow_html=True)
-        st.info("💡 Clicking the green button opens your WhatsApp client directly into the clan chat.")
 
-# --- PRIVILEGED ADMIN ONLY PANEL ---
+# --- PRIVILEGED REAL-TIME ADMIN MANAGEMENT CORE ---
 if st.session_state["is_admin"]:
     st.divider()
-    st.write("### 🛡️ Admin Management Console")
-    st.info(f"Secure Admin Session Verified.")
-    st.write(f"Current System Master Password: `{GUILD_PASSWORD}`")
+    st.write("## 🛡️ Admin Management Console")
+    st.info(f"Verified Session Control Matrix: {st.session_state['username']}")
+    
+    # 1. LIVE PRESENCE LOG INTERFACE
+    st.write("### 👥 Live Presence Tracker (Online / Offline)")
+    
+    for user, data in st.session_state["user_presence"].items():
+        if data["status"] == "Online":
+            st.markdown(f"👤 **{user}** — <span class='status-online'>🟢 Online Now</span>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"👤 **{user}** — <span class='status-offline'>🔴 Offline</span> <span class='timestamp'>(Last sync: {data['last_seen']})</span>", unsafe_allow_html=True)
+            
+    st.divider()
+    
+    # 2. PERSISTENT LIVE RULES MODIFIER
+    st.write("### 📝 Edit Guild Orders & Announcements")
+    st.write("Modify the text block below to change the live rules on the front dashboard instantly.")
+    
+    updated_text = st.text_area("Edit Live Rules Markdown", value=st.session_state["guild_orders"], height=300)
+    
+    if st.button("💾 Save & Publish System Updates"):
+        st.session_state["guild_orders"] = updated_text
+        st.success("System updated successfully! Changes are live on the front page.")
+        st.rerun()
