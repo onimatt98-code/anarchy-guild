@@ -125,7 +125,7 @@ else:
         st.markdown("""
         * 👑 **♱  DARK** (Guild Leader)
         * 🛡️ **♱ KUROTŚUI** (Admin)
-        * 🛡️ **♱  SAVAGE.** (Admin)
+        * 🛡️ **♱  PRIDE** (Admin)
         * 🛡️ **♱  EMMA** (Admin)
         * 🛡️ **♱  YENG** (Admin)
         """)
@@ -133,7 +133,7 @@ else:
         st.write("**Active Roster Enforcers:**")
         st.markdown("""
         * ⚔️ **♱  KAISER**
-        * ⚔️ **♱  PRIDE**
+        * ⚔️ **♱  SAVAGE.**
         * ⚔️ **♱ﾠDAMZY🪶**
         * ⚔️ **♱ﾠHEMJAY**
         """)
