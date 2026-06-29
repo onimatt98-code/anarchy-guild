@@ -84,4 +84,18 @@ else:
     if st.session_state["is_admin"]:
         st.divider()
         st.warning("🛡️ ADMIN MANAGEMENT CONSOLE")
-        st.write("Authorized access verified. You can now oversee guild operations.")
+        
+        # 1. Quick Status Logger
+        st.write("### 📝 Log Member Activity")
+        member_name = st.text_input("Member Name")
+        action = st.selectbox("Action", ["Promote to Enforcer", "Log 1k Points", "Warning: Low Activity", "Flag for Kick"])
+        
+        if st.button("Submit to Guild Log"):
+            st.success(f"Logged: {action} for {member_name}")
+
+        # 2. Live Guild War Alert
+        st.divider()
+        st.write("### 📢 Push Live Announcement")
+        alert_msg = st.text_input("Announcement Message", placeholder="Guild War starts in 1 hour! Get 100pts!")
+        if st.button("Broadcast to Portal"):
+            st.toast("Message broadcasted to all members!")
