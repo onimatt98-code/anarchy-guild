@@ -1,9 +1,8 @@
 import streamlit as st
 import datetime
-import time
 
 # 1. Page Configuration
-st.set_page_config(page_title="♱ ANARCHY Guild Portal", page_icon="⚔️", layout="centered")
+st.set_page_config(page_title="♱ ANARCHY Quantum Network", page_icon="⚔️", layout="centered")
 
 # 2. Guild Passwords
 MEMBER_PASSWORD = "anarchy2026"
@@ -17,45 +16,109 @@ if "is_admin" not in st.session_state:
 if "username" not in st.session_state:
     st.session_state["username"] = ""
 if "rsvp_yes" not in st.session_state:
-    st.session_state["rsvp_yes"] = ["♱  DARK", "♱ KUROTŚUI"]
+    st.session_state["rsvp_yes"] = ["♱  DARK", "♱  YENG"]
 if "rsvp_no" not in st.session_state:
     st.session_state["rsvp_no"] = []
 
-# 3. Enhanced Cyberpunk/Gaming Theme Custom CSS
+# 3. Futuristic Glassmorphism & Cyber HUD Custom CSS
 st.markdown("""
     <style>
-    /* Main body styles */
-    .stApp { background-color: #0b0c10; color: #c5c6c7; }
+    /* Neon Cyberpunk Base */
+    .stApp { 
+        background-color: #030708; 
+        background-image: linear-gradient(rgba(18, 24, 38, 0.5) 1px, transparent 0), linear-gradient(90deg, rgba(18, 24, 38, 0.5) 1px, transparent 0);
+        background-size: 40px 40px;
+        color: #e2e8f0; 
+    }
     
-    /* Input fields styling */
-    .stTextInput>div>div>input { background-color: #1f2833 !important; color: #45f3ff !important; border: 1px solid #45f3ff !important; }
+    /* Futuristic Cyber Inputs */
+    .stTextInput>div>div>input { 
+        background-color: #0d1117 !important; 
+        color: #00f0ff !important; 
+        border: 1px solid #00f0ff !important; 
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.15);
+        font-family: 'Courier New', monospace;
+    }
     
-    /* Buttons customization */
-    .stButton>button { background: linear-gradient(45deg, #ff3333, #ff6600); color: white; border: none; border-radius: 5px; width: 100%; font-weight: bold; text-transform: uppercase; box-shadow: 0 0 10px rgba(255,51,51,0.5); transition: 0.3s; }
-    .stButton>button:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(255,102,0,0.8); color: #fff; }
+    /* Neon Laser Buttons */
+    .stButton>button { 
+        background: linear-gradient(90deg, #ff0055, #9900ff); 
+        color: white; 
+        border: 1px solid #ff0055; 
+        border-radius: 0px; 
+        width: 100%; 
+        font-weight: bold; 
+        text-transform: uppercase; 
+        letter-spacing: 2px;
+        font-family: 'Courier New', monospace;
+        box-shadow: 0 0 15px rgba(255, 0, 85, 0.4); 
+        transition: 0.4s ease; 
+    }
+    .stButton>button:hover { 
+        transform: translateY(-2px); 
+        box-shadow: 0 0 25px rgba(153, 0, 255, 0.8); 
+        border: 1px solid #00f0ff;
+        color: #00f0ff; 
+    }
     
-    /* Custom containers */
-    .countdown-box { background: #11141a; border: 2px dashed #ff3333; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 25px; box-shadow: inset 0 0 15px rgba(255,0,0,0.2); }
-    .rules-card { background: #11141a; border-left: 5px solid #ff6600; padding: 15px; border-radius: 0 10px 10px 0; margin-bottom: 10px; }
+    /* Holo-Display Containers */
+    .countdown-box { 
+        background: rgba(10, 15, 26, 0.75); 
+        border: 1px solid #00f0ff; 
+        padding: 25px; 
+        border-radius: 4px; 
+        text-align: center; 
+        margin-bottom: 25px; 
+        box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.1);
+        backdrop-filter: blur(10px);
+    }
+    .rules-card { 
+        background: rgba(15, 22, 36, 0.6); 
+        border-left: 3px solid #ff0055; 
+        border-right: 1px solid rgba(255, 0, 85, 0.2);
+        border-top: 1px solid rgba(255, 0, 85, 0.2);
+        border-bottom: 1px solid rgba(255, 0, 85, 0.2);
+        padding: 15px; 
+        margin-bottom: 12px; 
+        font-family: 'Courier New', monospace;
+    }
     
-    /* WhatsApp Button Override */
-    .whatsapp-btn { display: block; background: linear-gradient(45deg, #128C7E, #25D366); color: white !important; text-align: center; padding: 14px; border-radius: 8px; font-weight: bold; text-decoration: none; margin: 20px auto; width: 90%; box-shadow: 0 4px 15px rgba(37,211,102,0.3); text-transform: uppercase; letter-spacing: 1px; }
-    .whatsapp-btn:hover { box-shadow: 0 4px 25px rgba(37,211,102,0.6); transform: translateY(-2px); }
+    /* Quantum Comms Button */
+    .whatsapp-btn { 
+        display: block; 
+        background: linear-gradient(90deg, #00f0ff, #0077ff); 
+        color: #030708 !important; 
+        text-align: center; 
+        padding: 14px; 
+        border-radius: 0px; 
+        font-weight: bold; 
+        text-decoration: none; 
+        margin: 20px auto; 
+        width: 90%; 
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); 
+        text-transform: uppercase; 
+        letter-spacing: 2px;
+        font-family: 'Courier New', monospace;
+    }
+    .whatsapp-btn:hover { 
+        box-shadow: 0 0 30px rgba(0, 119, 255, 0.8); 
+        transform: scale(1.01);
+    }
     </style>
 """, unsafe_allow_html=True)
 
 # --- LOGIN GATEWAY ---
 if not st.session_state["logged_in"]:
-    st.markdown("<h1 style='text-align: center; color: #ff3333; font-size: 3rem;'>🛡️ ♱ ANARCHY 🛡️</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #66fcf1; letter-spacing: 2px;'>SYSTEM VERIFICATION REQUIRED</p>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: #ff0055; font-size: 3.5rem; font-family: monospace; text-shadow: 0 0 20px rgba(255,0,85,0.6);'>♱ ANARCHY ♱</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #00f0ff; letter-spacing: 4px; font-family: monospace;'>INITIALIZING QUANTUM NETLINK...</p>", unsafe_allow_html=True)
     st.write("---")
     
-    user_name = st.text_input("ENTER FREE FIRE IGN (In-Game Name)")
-    input_password = st.text_input("ENTER ACCESS CIPHER", type="password")
+    user_name = st.text_input("// ENTER OPERATOR CODENAME (IGN)")
+    input_password = st.text_input("// DECRYPT ACCESS CIPHER", type="password")
 
-    if st.button("Authorize Connection"):
+    if st.button("AUTHENTICATE IDENTITY"):
         if user_name.strip() == "":
-            st.error("Identification failed: Name field cannot be vacant.")
+            st.error("CRITICAL ERROR: Operator identity unknown.")
         elif input_password == ADMIN_PASSWORD:
             st.session_state["logged_in"] = True
             st.session_state["is_admin"] = True
@@ -67,161 +130,154 @@ if not st.session_state["logged_in"]:
             st.session_state["username"] = user_name.strip()
             st.rerun()
         else:
-            st.error("Access Denied: Invalid Guild Cipher.")
+            st.error("ACCESS DENIED: Quantum encryption signature mismatch.")
 
 # --- DASHBOARD ---
 else:
-    # Header Section
+    # Cyber HUD Header
     col_header, col_logout = st.columns([3, 1])
     with col_header:
-        st.markdown(f"<h1 style='color: #ff3333; margin-bottom: 0;'>⚔️ ♱ﾠᴀɴᴀʀᴄʜʏ</h1>", unsafe_allow_html=True)
-        st.markdown(f"<p style='color: #66fcf1;'>Operator: {st.session_state['username']} {'[ADMIN]' if st.session_state['is_admin'] else '[MEMBER]'}</p>", unsafe_allow_html=True)
+        st.markdown(f"<h1 style='color: #ff0055; font-family: monospace; text-shadow: 0 0 10px rgba(255,0,85,0.4); margin-bottom: 0;'>♱ ANARCHY // MAIN_FRAME</h1>", unsafe_allow_html=True)
+        st.markdown(f"<p style='color: #00f0ff; font-family: monospace;'>SYS_OPERATOR: {st.session_state['username']} {'[OVERSEER_CLASS]' if st.session_state['is_admin'] else '[COMBAT_CLASS]'}</p>", unsafe_allow_html=True)
     with col_logout:
         st.write("")
-        if st.button("Disconnect"):
+        if st.button("TERMINATE LINK"):
             st.session_state["logged_in"] = False
             st.session_state["is_admin"] = False
             st.rerun()
         
     st.write("---")
     
-    portal_tabs = st.tabs(["📜 GUILD ORDERS", "👥 MEMBERS ROSTER", "💬 COMMUNITY HUBS"])
+    portal_tabs = st.tabs(["⚡ CORE_DIRECTIVES", "🧬 NEURAL_ROSTER", "📡 COMMS_ARRAY"])
     
-    # ---- TAB 1: GUILD ORDERS & COUNTDOWN ----
+    # ---- TAB 1: CORE DIRECTIVES & COUNTDOWN ----
     with portal_tabs[0]:
-        # CALCULATING LIVE COUNTDOWN TO NEXT GUILD WAR (Friday 7 PM)
+        # Live Time Tracking
         now = datetime.datetime.now()
-        target_day = 4  # Friday is 4 in Python datetime (0=Monday)
+        target_day = 4  # Friday
         days_ahead = target_day - now.weekday()
-        if days_ahead <= 0:  # If it's Friday after 7pm or Saturday/Sunday, target next week
+        if days_ahead <= 0:
             if days_ahead == 0 and now.hour < 19:
                 pass
             else:
                 days_ahead += 7
         
-        target_war_date = datetime.datetime.combine(
-            now.date() + datetime.timedelta(days=days_ahead), 
-            datetime.time(19, 0, 0)
-        )
+        target_war_date = datetime.datetime.combine(now.date() + datetime.timedelta(days=days_ahead), datetime.time(19, 0, 0))
         time_remaining = target_war_date - now
         
         days, remainder = divmod(int(time_remaining.total_seconds()), 86400)
         hours, remainder = divmod(remainder, 3600)
         minutes, seconds = divmod(remainder, 60)
         
-        # Displaying the countdown block
         st.markdown(f"""
         <div class="countdown-box">
-            <h3 style="color: #ff3333; margin: 0; letter-spacing: 2px;">🔴 NEXT LIVE GUILD WAR</h3>
-            <h2 style="color: #ffffff; font-family: 'Courier New', monospace; font-size: 2rem; margin: 10px 0;">
-                {days}d : {hours}h : {minutes}m : {seconds}s
+            <h3 style="color: #00f0ff; margin: 0; letter-spacing: 3px; font-family: monospace;">⚠️ TARGET TIME TO NEXT GUILD WAR</h3>
+            <h2 style="color: #ffffff; font-family: 'Courier New', monospace; font-size: 2.3rem; margin: 12px 0; text-shadow: 0 0 15px rgba(255,255,255,0.4);">
+                {days:02d}D : {hours:02d}H : {minutes:02d}M : {seconds:02d}S
             </h2>
-            <p style="color: #c5c6c7; font-size: 0.9rem; margin: 0;">Schedule: Friday & Saturday (7 PM - 11 PM)</p>
+            <p style="color: #a0aec0; font-size: 0.85rem; font-family: monospace; margin: 0;">SYNCHRONIZED WINDOW: FRI & SAT // 1900 - 2300 HOURS</p>
         </div>
         """, unsafe_allow_html=True)
         
-        # INTERACTIVE RSVP SYSTEM
-        st.write("### ⚔️ Combat Readiness Deployment")
-        st.write("Are you hitting the battlefield this Friday?")
+        # BATTLEFIELD SYNC
+        st.write("### 🌌 Combat Node Deployment Status")
+        st.write("Confirm your terminal presence for the upcoming Friday raid:")
         col_yes, col_no = st.columns(2)
         
         with col_yes:
-            if st.button("👍 Confirm Attendance"):
+            if st.button("📡 INITIALIZE DEPLOYMENT"):
                 if st.session_state["username"] not in st.session_state["rsvp_yes"]:
                     st.session_state["rsvp_yes"].append(st.session_state["username"])
                     if st.session_state["username"] in st.session_state["rsvp_no"]:
                         st.session_state["rsvp_no"].remove(st.session_state["username"])
-                    st.success("Deployed to Roster!")
+                    st.success("Telemetry Locked: Deployed.")
                     st.rerun()
         with col_no:
-            if st.button("👎 Mark Absent"):
+            if st.button("❌ ABORT DEPLOYMENT"):
                 if st.session_state["username"] not in st.session_state["rsvp_no"]:
                     st.session_state["rsvp_no"].append(st.session_state["username"])
                     if st.session_state["username"] in st.session_state["rsvp_yes"]:
                         st.session_state["rsvp_yes"].remove(st.session_state["username"])
-                    st.warning("Absence Logged.")
+                    st.warning("Telemetry Updated: Standby Mode.")
                     st.rerun()
         
-        # Show Live Headcount Metrics
-        st.write(f"**Current Headcount Ready:** `{len(st.session_state['rsvp_yes'])}` fighters.")
-        with st.expander("View Confirmed Vanguard"):
+        st.write(f"**Vanguard Nodes Synchronized:** `{len(st.session_state['rsvp_yes'])}` units online.")
+        with st.expander("Expand Active Grid Headcount"):
             st.write(", ".join(st.session_state["rsvp_yes"]))
 
         st.write("---")
         
-        # Core Guild Rules Layout
-        st.write("### 📜 Standing Directives")
+        # Cyber Directives
+        st.write("### 📜 Protocol Directives")
         rules = [
-            "**Rule 1:** Avoid insults/lust messages. Complete respect across all ranks.",
-            "**Rule 2:** Hit **1k guild points weekly** without fail or face the kick cycle.",
-            "**Rule 3:** Strict 10-day name change policy upon onboarding.",
-            "**Rule 4:** Daily training drills launch sharp at 10 PM.",
-            "**Rule 5:** Entry Requirements: Level 60+ and Prime 3+ tier baseline.",
-            "**Rule 10:** Respect the chain of command. **Fear the elders** 🗿."
+            "[SEC_01] Zero communication toxicity. Absolute baseline operational synchronization.",
+            "[SEC_02] Generate minimum **1,000 Energy Matrix Points weekly** or face automated partition purge.",
+            "[SEC_03] 10-day identification modification protocol mandatory upon grid insertion.",
+            "[SEC_04] Daily simulation matrix drills initialize at exactly 2200 hours.",
+            "[SEC_05] Baseline Specifications required: Level 60+ // Prime Tier 3+.",
+            "[SEC_10] Adhere strictly to the command architecture. **Fear the Elders** 🗿."
         ]
         for rule in rules:
             st.markdown(f'<div class="rules-card">{rule}</div>', unsafe_allow_html=True)
 
-    # ---- TAB 2: INTERACTIVE MEMBER ROSTER ----
+    # ---- TAB 2: ROSTER TERMINAL ----
     with portal_tabs[1]:
-        st.write("### 📢 OFFICIAL OPERATIONAL ROSTER")
-        st.info("💡 Click on a member card below to view active combat dossiers, ranks, and performance specs.")
+        st.write("### 📢 ACTIVE QUANTUM SIGNATURES")
+        st.info("⚡ Select an operational node below to decode combat data, rank indexes, and tactical specialties.")
         
-        st.write("#### 👑 Command Structure")
+        st.write("#### 👑 High Command Architecture")
         leaders = {
-            "♱  DARK": {"Role": "Guild Leader", "Level": "74", "Style": "Rush / Shotgun Specialist"},
-            "♱ KUROTŚUI": {"Role": "Admin / Co-Leader", "Level": "71", "Style": "Sniper Support"},
-            "♱  PRIDE": {"Role": "Admin", "Level": "68", "Style": "Flanker"},
-            "♱  EMMA": {"Role": "Admin", "Level": "65", "Style": "In-game IGL"},
-            "♱  YENG": {"Role": "Admin", "Level": "69", "Style": "All-Rounder"}
+            "♱  DARK": {"Role": "Guild Leader // System Root", "Level": "74", "Style": "High-Velocity Rush / Vanguard CQC"},
+            "♱  YENG": {"Role": "Co-Leader // Network Admin", "Level": "69", "Style": "Adaptive Flex / All-Rounder"},
+            "♱ KUROTŚUI": {"Role": "Network Admin", "Level": "71", "Style": "Long-Range Heavy Ordinance Sniper"},
+            "♱  PRIDE": {"Role": "Network Admin", "Level": "68", "Style": "Flanker / Stealth Operations"},
+            "♱  EMMA": {"Role": "Network Admin", "Level": "65", "Style": "Tactical Coordinator / IGL Matrix"}
         }
         
         for leader, info in leaders.items():
-            with st.expander(f"👑 {leader} — {info['Role']}"):
-                st.write(f"🏅 **Account Level:** {info['Level']}")
-                st.write(f"🎯 **Combat Style:** {info['Style']}")
-                st.write("📈 **Weekly Target Status:** `PASSED (Verified)`")
+            with st.expander(f"🔮 {leader} // {info['Role']}"):
+                st.write(f"🧬 **Hardware Level:** {info['Level']}")
+                st.write(f"🎯 **Combat Vector:** {info['Style']}")
+                st.write("📈 **Weekly Threshold:** `VERIFIED // SAFE`")
                 
-        st.write("#### ⚔️ Active Vanguard")
+        st.write("#### ⚔️ Active Vanguard Units")
         enforcers = {
-            "♱  KAISER": "Level 63 | Assaulter",
-            "♱  SAVAGE.": "Level 65 | Rusher",
-            "♱ﾠDAMZY🪶": "Level 61 | Support Sniper",
-            "♱ﾠHEMJAY": "Level 62 | Entry Fragger"
+            "♱  KAISER": "Level 63 | Assault Node",
+            "♱  SAVAGE.": "Level 65 | Strike Specialist",
+            "♱ﾠDAMZY🪶": "Level 61 | Rearguard Suppression Sniper",
+            "♱ﾠHEMJAY": "Level 62 | Entry Infiltration Unit"
         }
         for enforcer, details in enforcers.items():
-            with st.expander(f"⚔️ {enforcer}"):
-                st.write(f"📊 **Dossier Profiles:** {details}")
-                st.write("🚨 **Activity Metric:** Tracking Live...")
+            with st.expander(f"⬡ {enforcer}"):
+                st.write(f"📊 **Telemetry Logs:** {details}")
+                st.write("🚨 **Link Status:** Active Core Loop...")
 
-    # ---- TAB 3: COMMUNITY HUBS ----
+    # ---- TAB 3: NETWORK LINKS ----
     with portal_tabs[2]:
-        st.write("### 💬 Communication Arrays")
-        st.write("Stay synced with squad strategies, live voice links, and quick tactical briefings on our major channel:")
-        st.markdown(f'<a href="https://chat.whatsapp.com/LFHtTSLYkNc5IT2iRFWbYy?s=sh&p=a&mlu=2" target="_blank" class="whatsapp-btn">🟢 JOIN OFFICIAL WHATSAPP COMS</a>', unsafe_allow_html=True)
+        st.write("### 📡 Main Intercom Array")
+        st.write("Establish live voice links, route backup telemetry channels, and bridge chat vectors to our main communications array:")
+        st.markdown(f'<a href="https://chat.whatsapp.com/LFHtTSLYkNc5IT2iRFWbYy?s=sh&p=a&mlu=2" target="_blank" class="whatsapp-btn">⚡ BRIDGE QUANTUM COMMS LINK</a>', unsafe_allow_html=True)
 
-    # --- ADMIN ONLY MANAGEMENT CONSOLE ---
+    # --- ADMIN OVERSEER CONSOLE ---
     if st.session_state["is_admin"]:
         st.write("---")
-        st.markdown("<h2 style='color: #ff3333;'>🛡️ ADMIN CONTROL ARRAYS</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='color: #ff0055; font-family: monospace; text-shadow: 0 0 10px rgba(255,0,85,0.4);'>🛡️ OVERSEER COMMAND CONSOLE</h2>", unsafe_allow_html=True)
         
-        # 1. Quick Status Logger
-        st.write("### 📝 Log Member Activity")
-        member_name = st.text_input("Target Enforcer Name")
-        action = st.selectbox("Action Directive", ["Promote to Enforcer", "Log 1k Points Manually", "Issue Low Activity Warning", "Flag for Execution (Kick)"])
+        st.write("### 📝 Inject Node Activity Log")
+        member_name = st.text_input("Target Node Designation")
+        action = st.selectbox("Command Variable", ["Promote to Enforcer Rank", "Override 1k Points Threshold", "Transmit Low Energy Alert", "Queue Node For Deletion (Purge)"])
         
-        if st.button("Commit Log Entry"):
+        if st.button("COMMIT INJECTION"):
             if member_name:
-                st.success(f"Log Updated Successfully: **{action}** has been recorded against **{member_name}**.")
+                st.success(f"System Log Altered: **{action}** successfully compiled for **{member_name}**.")
             else:
-                st.error("Action terminated: Target name field blank.")
+                st.error("Compilation Interrupted: Node name undefined.")
 
-        # 2. Live Guild War Alert
-        st.write("### 📢 Push Tactical Broadcast Alert")
-        alert_msg = st.text_input("Broadcast Cipher Text", placeholder="Guild War starts in 1 hour! Get 100pts!")
-        if st.button("Initialize System Broadcast"):
+        st.write("### 📢 Pulse System-Wide Network Broadcast")
+        alert_msg = st.text_input("Broadcast Array Telemetry", placeholder="Guild War starts in 1 hour! Get 100pts!")
+        if st.button("INITIALIZE BROADCAST WAVE"):
             if alert_msg:
-                st.toast(f"ALERT BROADCASTED: {alert_msg}")
-                st.sidebar.error(f"🚨 ADMIN NOTICE: {alert_msg}")
+                st.toast(f"BROADCAST VECTOR INITIATED: {alert_msg}")
+                st.sidebar.error(f"🚨 BROADCAST: {alert_msg}")
             else:
-                st.warning("Cannot broadcast empty airwaves.")
+                st.warning("Cannot pulse empty transmission waves.")
