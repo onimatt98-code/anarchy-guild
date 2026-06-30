@@ -113,12 +113,12 @@ if not st.session_state["logged_in"]:
     st.markdown("<p style='text-align: center; color: #00f0ff; letter-spacing: 4px; font-family: monospace;'>INITIALIZING QUANTUM NETLINK...</p>", unsafe_allow_html=True)
     st.write("---")
     
-    user_name = st.text_input("// ENTER OPERATOR CODENAME (IGN)")
-    input_password = st.text_input("// DECRYPT ACCESS CIPHER", type="password")
+    user_name = st.text_input("🎮 ENTER YOUR FREE FIRE GAME NAME (IGN)")
+    input_password = st.text_input("🔑 ENTER GUILD CODE WORD / PASSWORD", type="password")
 
     if st.button("AUTHENTICATE IDENTITY"):
         if user_name.strip() == "":
-            st.error("CRITICAL ERROR: Operator identity unknown.")
+            st.error("CRITICAL ERROR: Please enter your Free Fire name.")
         elif input_password == ADMIN_PASSWORD:
             st.session_state["logged_in"] = True
             st.session_state["is_admin"] = True
@@ -130,7 +130,7 @@ if not st.session_state["logged_in"]:
             st.session_state["username"] = user_name.strip()
             st.rerun()
         else:
-            st.error("ACCESS DENIED: Quantum encryption signature mismatch.")
+            st.error("ACCESS DENIED: Incorrect guild password.")
 
 # --- DASHBOARD ---
 else:
@@ -148,11 +148,10 @@ else:
         
     st.write("---")
     
-    portal_tabs = st.tabs(["⚡ CORE_DIRECTIVES", "🧬 NEURAL_ROSTER", "📡 COMMS_ARRAY"])
+    portal_tabs = st.tabs(["⚡ CORE_DIRECTIVES", "🧬 NEURAL_ROSTER", "🎬 COMBAT_CLIPS", "📡 COMMS_ARRAY"])
     
     # ---- TAB 1: CORE DIRECTIVES & COUNTDOWN ----
     with portal_tabs[0]:
-        # Live Time Tracking
         now = datetime.datetime.now()
         target_day = 4  # Friday
         days_ahead = target_day - now.weekday()
@@ -179,7 +178,6 @@ else:
         </div>
         """, unsafe_allow_html=True)
         
-        # BATTLEFIELD SYNC
         st.write("### 🌌 Combat Node Deployment Status")
         st.write("Confirm your terminal presence for the upcoming Friday raid:")
         col_yes, col_no = st.columns(2)
@@ -207,7 +205,6 @@ else:
 
         st.write("---")
         
-        # Cyber Directives
         st.write("### 📜 Protocol Directives")
         rules = [
             "[SEC_01] Zero communication toxicity. Absolute baseline operational synchronization.",
@@ -220,7 +217,7 @@ else:
         for rule in rules:
             st.markdown(f'<div class="rules-card">{rule}</div>', unsafe_allow_html=True)
 
-    # ---- TAB 2: ROSTER TERMINAL ----
+    # ---- TAB 2: ROSTER TERMINAL (With You in 4th Spot) ----
     with portal_tabs[1]:
         st.write("### 📢 ACTIVE QUANTUM SIGNATURES")
         st.info("⚡ Select an operational node below to decode combat data, rank indexes, and tactical specialties.")
@@ -230,6 +227,7 @@ else:
             "♱  DARK": {"Role": "Guild Leader // System Root", "Level": "74", "Style": "High-Velocity Rush / Vanguard CQC"},
             "♱  YENG": {"Role": "Co-Leader // Network Admin", "Level": "69", "Style": "Adaptive Flex / All-Rounder"},
             "♱ KUROTŚUI": {"Role": "Network Admin", "Level": "71", "Style": "Long-Range Heavy Ordinance Sniper"},
+            f"{st.session_state['username'] if st.session_state['username'] else 'YOU'}": {"Role": "Systems Architect // Site Creator", "Level": "99", "Style": "Full-Stack Core Dev / Tactical Logic Overlay"},
             "♱  PRIDE": {"Role": "Network Admin", "Level": "68", "Style": "Flanker / Stealth Operations"},
             "♱  EMMA": {"Role": "Network Admin", "Level": "65", "Style": "Tactical Coordinator / IGL Matrix"}
         }
@@ -252,8 +250,15 @@ else:
                 st.write(f"📊 **Telemetry Logs:** {details}")
                 st.write("🚨 **Link Status:** Active Core Loop...")
 
-    # ---- TAB 3: NETWORK LINKS ----
+    # ---- TAB 3: COMBAT CLIPS ----
     with portal_tabs[2]:
+        st.write("### 🎬 TRANSMISSION FEED: GUILD SHOWCASE")
+        st.info("⚡ System Link Active: Streaming latest high-tier operator profiles.")
+        st.video("guild_intro.mp4")
+        st.markdown("<p style='font-family: monospace; font-size: 0.85rem; color: #a0aec0; text-align: center;'>⚡ TRACK DATA // Featuring: ANARCHY High Command</p>", unsafe_allow_html=True)
+
+    # ---- TAB 4: NETWORK LINKS ----
+    with portal_tabs[3]:
         st.write("### 📡 Main Intercom Array")
         st.write("Establish live voice links, route backup telemetry channels, and bridge chat vectors to our main communications array:")
         st.markdown(f'<a href="https://chat.whatsapp.com/LFHtTSLYkNc5IT2iRFWbYy?s=sh&p=a&mlu=2" target="_blank" class="whatsapp-btn">⚡ BRIDGE QUANTUM COMMS LINK</a>', unsafe_allow_html=True)
