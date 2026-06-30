@@ -1,7 +1,7 @@
 import streamlit as st
 import datetime
 
-# 1. Page Configuration (Clean & Compact)
+# 1. Page Configuration (Clean & Portable Layout)
 st.set_page_config(page_title="ANARCHY Guild Portal", page_icon="⚔️", layout="centered")
 
 # 2. Guild Passwords
@@ -20,7 +20,7 @@ if "rsvp_yes" not in st.session_state:
 if "rsvp_no" not in st.session_state:
     st.session_state["rsvp_no"] = []
 
-# 3. Clean & Modern Mobile-Friendly Styling
+# 3. Clean & Modern Mobile-Friendly UI Styling
 st.markdown("""
     <style>
     /* Clean Dark Mode Theme */
@@ -37,7 +37,7 @@ st.markdown("""
         border-radius: 6px !important;
     }
     
-    /* Professional Clean Button */
+    /* Professional Clean Action Buttons */
     .stButton>button { 
         background-color: #e11d48; 
         color: white; 
@@ -53,7 +53,7 @@ st.markdown("""
         color: white;
     }
     
-    /* Simple Info Box for Countdown */
+    /* Compact Card Layouts */
     .countdown-card { 
         background: #1e293b; 
         border: 1px solid #334155; 
@@ -63,21 +63,30 @@ st.markdown("""
         margin-bottom: 20px; 
     }
     
-    /* WhatsApp Redirection Button */
-    .whatsapp-link { 
-        display: block; 
-        background-color: #25d366; 
-        color: white !important; 
-        text-align: center; 
-        padding: 12px; 
-        border-radius: 6px; 
-        font-weight: bold; 
-        text-decoration: none; 
-        margin: 20px auto; 
-        width: 100%; 
+    /* Side-by-Side Clean Link Buttons */
+    .social-btn {
+        display: block;
+        text-align: center;
+        padding: 12px 6px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-decoration: none;
+        width: 100%;
+        font-size: 0.9rem;
     }
-    .whatsapp-link:hover { 
+    .wa-color {
+        background-color: #25d366;
+        color: white !important;
+    }
+    .wa-color:hover {
         background-color: #20ba5a;
+    }
+    .tt-color {
+        background: linear-gradient(90deg, #00f2fe, #4facfe);
+        color: #000000 !important;
+    }
+    .tt-color:hover {
+        box-shadow: 0 0 12px rgba(0, 242, 254, 0.5);
     }
     </style>
 """, unsafe_allow_html=True)
@@ -88,7 +97,6 @@ if not st.session_state["logged_in"]:
     st.markdown("<p style='text-align: center; color: #94a3b8;'>Guild Member Portal</p>", unsafe_allow_html=True)
     st.write("---")
     
-    # Simple, clear standard labels
     user_name = st.text_input("🎮 Free Fire Game Name (IGN)")
     input_password = st.text_input("🔑 Guild Password", type="password")
 
@@ -110,7 +118,7 @@ if not st.session_state["logged_in"]:
 
 # --- MAIN PORTAL ---
 else:
-    # Minimal Top Bar
+    # Minimal Top Header Bar
     col_header, col_logout = st.columns([3, 1])
     with col_header:
         st.markdown(f"<h3 style='margin:0;'>Welcome back, {st.session_state['username']}</h3>", unsafe_allow_html=True)
@@ -122,12 +130,11 @@ else:
         
     st.write("---")
     
-    # Modern Portable Tabs
-    portal_tabs = st.tabs(["📢 Dashboard", "🧬 Guild Roster", "🎬 Combat Clips", "📡 Group Chat"])
+    # Modern Portable Tabs Layout (Renamed Tab 3 to Communiques/Socials)
+    portal_tabs = st.tabs(["📢 Dashboard", "🧬 Guild Roster", "📡 Guild Connections"])
     
     # ---- TAB 1: DASHBOARD & COUNTDOWN ----
     with portal_tabs[0]:
-        # Simple Countdown Logic
         now = datetime.datetime.now()
         target_day = 4  # Friday
         days_ahead = target_day - now.weekday()
@@ -154,7 +161,7 @@ else:
         </div>
         """, unsafe_allow_html=True)
         
-        # RSVP Check-in System
+        # RSVP Attendance System
         st.write("#### ⚔️ Confirm Attendance")
         st.write("Are you available to participate this Friday?")
         col_yes, col_no = st.columns(2)
@@ -182,46 +189,56 @@ else:
 
         st.write("---")
         
-        # Simple Rules Display
         st.write("#### 📜 Guild Regulations")
         st.info("1. Respect all members. Zero tolerance for toxicity.\n"
                 "2. Earn a minimum of **1,000 Glory Points weekly**.\n"
                 "3. Use the required guild name tag change format within 10 days.\n"
                 "4. Requirements to stay: Account level 60+ / Heroic Tier 3+.")
 
-    # ---- TAB 2: ROSTER (With you placed perfectly at 4th) ----
+    # ---- TAB 2: ROSTER ----
     with portal_tabs[1]:
-        st.write("#### 👑 High Command")
+        st.write("#### 👑 High Command Architecture")
         
         leaders = {
             "♱  DARK": {"Role": "Guild Leader", "Level": "74", "Style": "Vanguard Rusher"},
             "♱  YENG": {"Role": "Co-Leader", "Level": "69", "Style": "All-Rounder"},
-            "♱ KUROTŚUI": {"Role": "Officer", "Level": "71", "Style": "Sniper"},
-            f"{st.session_state['username'] if st.session_state['username'] else 'YOU'}": {"Role": "Site Creator / Architect", "Level": "99", "Style": "Core Support"},
-            "♱  PRIDE": {"Role": "Officer", "Level": "68", "Style": "Flanker"},
-            "♱  EMMA": {"Role": "Officer", "Level": "65", "Style": "In-Game Leader"}
+            "♱ KUROTŚUI": {"Role": "Officer / Admin", "Level": "71", "Style": "Sniper"},
+            f"{st.session_state['username'] if st.session_state['username'] else 'YOU'}": {"Role": "Site Creator / Architect", "Level": "99", "Style": "Core Support System"},
+            "♱  PRIDE": {"Role": "Officer / Admin", "Level": "68", "Style": "Flanker"},
+            "n  EMMA": {"Role": "Officer / Admin", "Level": "65", "Style": "In-Game Leader"},
+            "♱ EVILMAN†": {"Role": "Officer / Admin", "Level": "64", "Style": "Assault Node"}
         }
         
         for name, info in leaders.items():
             with st.expander(f"⭐ {name} — {info['Role']}"):
                 st.write(f"• **Level:** {info['Level']}  \n• **Playstyle:** {info['Style']}")
                 
-        st.write("#### ⚔️ Main Squad")
-        enforcers = ["♱  KAISER", "♱  SAVAGE.", "♱ﾠDAMZY🪶", "♱ﾠHEMJAY"]
-        for name in enforcers:
-            st.text(f"• {name}")
+        st.write("#### ⚔️ Active Vanguard Units")
+        enforcers = {
+            "♱  KAISER": "Level 63 | Assault Node",
+            "♱  SAVAGE.": "Level 65 | Strike Specialist",
+            "♱ﾠDAMZY 🌾": "Level 61 | Rearguard Suppression",
+            "♱  HEMJAY": "Level 62 | Infiltration Unit",
+            "♱  ᏁᎮᎴ": "Level 61 | Combat Node"
+        }
+        for name, details in enforcers.items():
+            with st.expander(f"• {name}"):
+                st.write(f"📊 **Telemetry Logs:** {details}")
 
-    # ---- TAB 3: COMBAT CLIPS (Natively Embedded Internal Video Player) ----
+    # ---- TAB 3: CONNECTIONS (WhatsApp & TikTok side-by-side on the same line) ----
     with portal_tabs[2]:
-        st.write("#### 🎬 Guild Showcase Video")
+        st.write("#### 📡 Operational Links")
+        st.write("Access our communication channels and social feed below:")
         
-        # Plays cleanly inside the web container using the file hosted in your directory
-        st.video("guild_intro.mp4")
+        # Split into 2 perfectly aligned columns on the same row
+        col_whatsapp, col_tiktok = st.columns(2)
         
-        st.caption("Featuring profiles of: DARK, YENG, KUROTŚUI, EMMA, PRIDE, & SAVAGE.")
-
-    # ---- TAB 4: GROUP CHAT LINK ----
-    with portal_tabs[3]:
-        st.write("#### 📡 Communication Bridge")
-        st.write("Tap the button below to switch over to our WhatsApp group for squad calls and active war coordination:")
-        st.markdown(f'<a href="https://chat.whatsapp.com/LFHtTSLYkNc5IT2iRFWbYy?s=sh&p=a&mlu=2" target="_blank" class="whatsapp-link">Join WhatsApp Group Chat</a>', unsafe_allow_html=True)
+        with col_whatsapp:
+            # ⚠️ Change link inside href="..." if you get a new WhatsApp group invite link
+            st.markdown('<a href="https://chat.whatsapp.com/LFHtTSLYkNc5IT2iRFWbYy" target="_blank" class="social-btn wa-color">💬 WhatsApp Chat</a>', unsafe_allow_html=True)
+            
+        with col_tiktok:
+            # ⚠️ Replace href="..." link with your real TikTok profile address whenever you want
+            st.markdown('<a href="https://www.tiktok.com/" target="_blank" class="social-btn tt-color">📱 TikTok Feed</a>', unsafe_allow_html=True)
+            
+        st.caption("Note: Use the WhatsApp portal for active war lineup communications.")
