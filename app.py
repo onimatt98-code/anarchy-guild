@@ -31,111 +31,90 @@ def get_base64_image(image_path):
 
 bg_base64 = get_base64_image("60308.jpg")
 
-# 3. UI Styling Configurations (Fixed Syntax Matrix)
-if not st.session_state["logged_in"]:
-    # Login Screen Styling
-    st.markdown("""
-        <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700;900&display=swap');
-        
-        .stApp { 
-            background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.9)), 
-                        url("data:image/jpeg;base64,""" + bg_base64 + """") no-repeat center center fixed;
-            background-size: cover;
-            color: #f8fafc; 
-            font-family: 'Inter', sans-serif !important;
-        }
-        .login-box {
-            background: rgba(30, 41, 59, 0.4);
-            padding: 30px;
-            border-radius: 12px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .stTextInput>div>div>input { 
-            background-color: rgba(15, 23, 42, 0.8) !important; 
-            color: #ffffff !important; 
-            border: 1px solid #475569 !important; 
-            border-radius: 6px !important;
-            font-family: 'Inter', sans-serif !important;
-        }
-        .stButton>button { 
-            background: #e11d48; 
-            color: white; 
-            border: none;
-            border-radius: 6px; 
-            width: 100%; 
-            font-weight: 700; 
-            padding: 10px;
-            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
-            font-family: 'Orbitron', sans-serif !important;
-            letter-spacing: 2px;
-        }
-        h1, h2, h3, .brand-logo {
-            font-family: 'Orbitron', sans-serif !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-else:
-    # Dashboard Dashboard Styling
-    st.markdown("""
-        <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap');
-        
-        .stApp { 
-            background-color: #0f172a; 
-            color: #f8fafc; 
-            font-family: 'Inter', sans-serif !important;
-        }
-        .stTextInput>div>div>input { 
-            background-color: #1e293b !important; 
-            color: #ffffff !important; 
-            border: 1px solid #334155 !important; 
-            border-radius: 6px !important;
-            font-family: 'Inter', sans-serif !important;
-        }
-        .stButton>button { 
-            background-color: #e11d48; 
-            color: white; 
-            border: none;
-            border-radius: 6px; 
-            width: 100%; 
-            font-weight: 700; 
-            padding: 10px;
-            font-family: 'Orbitron', sans-serif !important;
-            letter-spacing: 1px;
-        }
-        .countdown-card { 
-            background: #1e293b; 
-            border: 1px solid #334155; 
-            padding: 20px; 
-            border-radius: 8px; 
-            text-align: center; 
-            margin-bottom: 20px; 
-        }
-        .countdown-card h2 {
-            font-family: 'Orbitron', sans-serif !important;
-            font-weight: 900;
-        }
-        .social-btn {
-            display: block;
-            text-align: center;
-            padding: 12px 6px;
-            border-radius: 6px;
-            font-weight: bold;
-            text-decoration: none;
-            width: 100%;
-            font-size: 0.9rem;
-            font-family: 'Orbitron', sans-serif !important;
-            letter-spacing: 1px;
-        }
-        .wa-color { background-color: #25d366; color: white !important; }
-        .tt-color { background: linear-gradient(90deg, #00f2fe, #4facfe); color: #000000 !important; }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Orbitron', sans-serif !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+# 3. Global UI Styling Configurations (Image Applied Everywhere)
+st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700;900&display=swap');
+    
+    /* Set background image globally across all screens */
+    .stApp { 
+        background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.93)), 
+                    url("data:image/jpeg;base64,""" + bg_base64 + """") no-repeat center center fixed;
+        background-size: cover !important;
+        color: #f8fafc; 
+        font-family: 'Inter', sans-serif !important;
+    }
+    
+    /* Container for Login Elements */
+    .login-box {
+        background: rgba(30, 41, 59, 0.3);
+        padding: 30px;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 10px;
+    }
+    
+    /* Input Fields styling */
+    .stTextInput>div>div>input { 
+        background-color: rgba(15, 23, 42, 0.75) !important; 
+        color: #ffffff !important; 
+        border: 1px solid #475569 !important; 
+        border-radius: 6px !important;
+        font-family: 'Inter', sans-serif !important;
+    }
+    
+    /* Primary buttons */
+    .stButton>button { 
+        background: #e11d48; 
+        color: white; 
+        border: none;
+        border-radius: 6px; 
+        width: 100%; 
+        font-weight: 700; 
+        padding: 10px;
+        box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+        font-family: 'Orbitron', sans-serif !important;
+        letter-spacing: 1px;
+    }
+    
+    /* Countdown Display Card */
+    .countdown-card { 
+        background: rgba(30, 41, 59, 0.45); 
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255, 255, 255, 0.1); 
+        padding: 20px; 
+        border-radius: 8px; 
+        text-align: center; 
+        margin-bottom: 20px; 
+    }
+    .countdown-card h2 {
+        font-family: 'Orbitron', sans-serif !important;
+        font-weight: 900;
+    }
+    
+    /* Side-by-side Navigation / Connections Buttons */
+    .social-btn {
+        display: block;
+        text-align: center;
+        padding: 12px 6px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-decoration: none;
+        width: 100%;
+        font-size: 0.9rem;
+        font-family: 'Orbitron', sans-serif !important;
+        letter-spacing: 1px;
+    }
+    .wa-color { background-color: #25d366; color: white !important; }
+    .tt-color { background: linear-gradient(90deg, #00f2fe, #4facfe); color: #000000 !important; }
+    
+    /* Apply Cool Gaming Typography globally to titles */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Orbitron', sans-serif !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # --- LOGIN GATEWAY ---
 if not st.session_state["logged_in"]:
